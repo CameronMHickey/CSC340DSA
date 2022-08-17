@@ -1,0 +1,210 @@
+
+namespace PriorityQueue
+{
+    public class Program
+    {
+        public static void Main()
+        {
+            PQ<string> pq = new PQ<string>();
+            Console.WriteLine("Check if pQueue is empty: " + pq.isEmpty());
+
+            pq.enqueue("rand_item");
+            pq.enqueue("third", 3);
+            pq.enqueue("second", 2);
+            pq.enqueue("first", 1);
+            pq.enqueue("fourth", 4);
+            pq.enqueue("rand_item");
+            pq.enqueue("low_priority", 6);
+            pq.enqueue("rand_item");
+            pq.printQueue();
+
+            Console.WriteLine("\nQueue in priority order");
+            pq.printQueueInPriority();
+            Console.WriteLine("\nDequeue first priority");
+            pq.dequeue();
+            pq.printQueueInPriority();
+
+            Console.WriteLine("Queue peek methods");
+            pq.printQueue();
+            Console.WriteLine(pq.peek());
+            Console.WriteLine("Front is: "  + pq.peekFront());
+            Console.WriteLine("Rear is: " + pq.peekRear());
+        }
+    }
+
+    // A generic implementation of a priority queue with T being the type of data entered in the Queue
+    public class PQ<T>
+    {
+        // This class creates generic items inheriting property T from PQ with a numeric priority value assigned.
+        private class item
+        {
+            public T data;
+            public int priority;
+            public item(T data, int priority)
+            {
+                this.data = data;
+                this.priority = priority;
+            }
+        }
+
+        // Creates a new generic list in which the priority queue will be implemented
+        // The runtime of this call is O(1)
+        List<item> pQueue = new List<item>();
+
+        // Returns the number of items in the queue
+        // The runtime of this call is O(1)
+        private int Count { get; set; }
+
+        // Returns the index of the highest priority item in the queue, whether that be the first item in the queue (default) or an item entered into the queue with a higher priority
+        // The runtime of this call is O(n)
+        private int priorityItem
+        {
+            get 
+            {
+                int minIndex = 0;
+
+                for (int i = 1; i < pQueue.Count; i++)
+                {
+                    if (pQueue[i].priority < pQueue[minIndex].priority)
+                    {
+                        minIndex = i;
+                    }
+                }
+                return minIndex;
+            }
+        }
+
+        public PQ()
+        {
+        }
+
+        // This function is used to insert new data into the queue.
+        // The numeric priority value can be provided upon enqueue request, but if it is not, the item is assigned a default priority value of 5.
+        // The runtime of this method is O(1) as the item is just added to the back of the queue
+        public void enqueue(T data, int priority = 5)
+        {
+            var item = new item(data, priority);
+            pQueue.Add(item);
+            Count++;
+        }
+
+        // This function removes the element with the highest priority from the queue and returns the data of the removed item
+        // The runtime of this method is O(n)
+        public T dequeue()
+        {
+            int pIndex = priorityItem;
+            item priority = pQueue[pIndex];
+
+            pQueue.RemoveAt(pIndex);
+            Count--;
+
+            return priority.data;
+        }
+
+        // This function is used to view the highest priority element in the queue without removing it from the queue.
+        // The runtime of this method is O(n)
+        public T peek()
+        {
+            return pQueue[priorityItem].data;
+        }
+
+        // This operation returns the element at the front end without removing it.
+        // The runtime of this method is O(1)
+        public T peekFront()
+        {
+            return pQueue[0].data;
+        }
+
+        // This operation returns the element at the rear end without removing it.
+        // The runtime of this method is O(1)
+        public T peekRear()
+        {
+            return pQueue[Count - 1].data;
+        }
+
+        // This operation prints the queue in first-in-first-out order.
+        // The runtime of this method is O(n)
+        public bool isEmpty()
+        {
+            return Count == 0;
+        }
+
+        // This operation prints the queue in first-in-first-out order.
+        // The runtime of this method is O(n)
+        public void printQueue()
+        {
+            Console.WriteLine("In this queue, the smallest value is the highest priority. \nI.E. 1 is of higher priority than 5, with 5 being the default priority value.\nQueue in FIFO Order: \n");
+            foreach (item item in pQueue) 
+            {
+                Console.WriteLine($"{item.data} (priority {item.priority})");
+            }
+            Console.WriteLine("End of Queue");
+        }
+        // This operation prints the queue in priority order.
+        // The runtime of this method is O(n^2)
+
+        public void printQueueInPriority()
+        {
+            List<item> temp = new List<item>();
+            for (int i = 1; i < Count - 1; i++)
+            {
+                foreach (item item in pQueue)
+                {
+                    if (item.priority == (i))
+                    {
+                        temp.Add(item);
+                    }
+                }
+            }
+            foreach (item item in temp)
+            {
+                Console.WriteLine($"{item.data} (priority {item.priority})");
+            }
+        }
+        //public void printQueueInPriority()
+        //{
+        //    List<item> tmp = new();
+
+        //    for (int i = 0; i <= pQueue.Count; i++)
+        //    {
+        //        heap(pQueue, pQueue[i].priority,i); /////
+        //    }
+        //    for (int i = pQueue.Count; i > 0; i-- )
+        //    {
+        //        tmp[0] = pQueue[0];
+        //        pQueue[0] = pQueue[i];
+        //        pQueue[i] = tmp[0];
+
+        //        heap(pQueue, i, 0);
+        //    }
+        //}
+        //public void heap(List<item> item, int priority, int i)
+        //{
+        //    List<item> tmp = new List<item>();
+
+        //    int hp = i;
+        //    int l = 2 * i + 1;
+        //    int r = 2 * i + 2;
+
+        //    if (l < priority && item[l].priority < item[hp].priority)
+        //    {
+        //        hp = l;
+        //    }
+        //    if(r < priority && item[r].priority < item[hp].priority)
+        //    {
+        //        hp = r;
+        //    }
+        //    if(hp != i)
+        //    {
+        //        tmp[0] = item[i];  /////
+        //        item[i] = item[hp];
+        //        item[hp] = tmp[0];
+
+        //        heap(item,priority,hp);
+        //    }
+        //}
+    }
+}
+
+
+// 170   22   199   
