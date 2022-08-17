@@ -167,9 +167,9 @@ namespace PriorityQueue
 
         //    for (int i = 0; i <= pQueue.Count; i++)
         //    {
-        //        heap(pQueue, pQueue[i].priority,i); /////
+        //        heap(pQueue, pQueue[i].priority, i); /////
         //    }
-        //    for (int i = pQueue.Count; i > 0; i-- )
+        //    for (int i = pQueue.Count; i > 0; i--)
         //    {
         //        tmp[0] = pQueue[0];
         //        pQueue[0] = pQueue[i];
@@ -178,10 +178,9 @@ namespace PriorityQueue
         //        heap(pQueue, i, 0);
         //    }
         //}
-        //public void heap(List<item> item, int priority, int i)
+        //private void heap(List<item> item, int priority, int i)
         //{
-        //    List<item> tmp = new List<item>();
-
+        //    item tmp = new(item,1);
         //    int hp = i;
         //    int l = 2 * i + 1;
         //    int r = 2 * i + 2;
@@ -190,17 +189,21 @@ namespace PriorityQueue
         //    {
         //        hp = l;
         //    }
-        //    if(r < priority && item[r].priority < item[hp].priority)
+        //    if (r < priority && item[r].priority < item[hp].priority)
         //    {
         //        hp = r;
         //    }
-        //    if(hp != i)
+        //    if (hp != i)
         //    {
-        //        tmp[0] = item[i];  /////
-        //        item[i] = item[hp];
-        //        item[hp] = tmp[0];
 
-        //        heap(item,priority,hp);
+        //        tmp.data = item[i].data;
+        //        tmp.priority = item[i].priority;
+        //        item[i].data = item[hp].data;
+        //        item[i].priority = item[hp].priority;
+        //        item[hp].data = tmp.data;
+        //        item[hp].priority = tmp.priority;
+
+        //        heap(item, priority, hp);
         //    }
         //}
     }
