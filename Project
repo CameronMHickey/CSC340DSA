@@ -19,7 +19,7 @@ namespace PriorityQueue
             //pq.printQueue();
 
             Console.WriteLine("\nQueue in priority order");
-            pq.printQueueInPriority(pq);
+            pq.printQueueInPriority();
             //Console.WriteLine("\nDequeue first priority");
             //pq.dequeue();
             //pq.printQueueInPriority();
@@ -165,7 +165,7 @@ namespace PriorityQueue
         //public void printQueueInPriority()
         //{
         //    var tmp = new item(data, 1);
-            
+
         //    for (int i = Count - 1; i > 0; i--)
         //    {
         //        heap(pQueue, pQueue.Count, i);
@@ -213,10 +213,20 @@ namespace PriorityQueue
         //}
 
         // Source code from Geeks for Geeks
-        public void printQueueInPriority(PQ<T> arr)
+        public void printQueueInPriority()
         {
-            var tmp = new item(data, 1);
-            int N = Count-1;
+            item[] items = new item[Count];
+            pQueue.CopyTo(items);
+
+            heapSort(items);
+            foreach (item item in items)
+            {
+                Console.WriteLine($"{item.data} (priority {item.priority})");
+            }
+        }
+        public void heapSort(item[] arr)
+        {  
+            int N = Count - 1;
 
             // Build heap (rearrange array)
             for (int i = N / 2 - 1; i >= 0; i--)
@@ -226,7 +236,7 @@ namespace PriorityQueue
             for (int i = N - 1; i > 0; i--)
             {
                 // Move current root to end
-                tmp = arr[0];
+               item tmp = arr[0];
                 arr[0] = arr[i];
                 arr[i] = tmp;
 
@@ -237,7 +247,7 @@ namespace PriorityQueue
 
         // To heapify a subtree rooted with node i which is
         // an index in arr[]. n is size of heap
-        void heapify(List<item> arr, int N, int i)
+        void heapify(item[] arr, int N, int i)
         {
             var tmp = new item(data, 1);
             int largest = i; // Initialize largest as root
@@ -266,6 +276,71 @@ namespace PriorityQueue
                 heapify(arr, N, largest);
             }
         }
+        //public void printQueueInPriority()
+        //{
+        //    item[] items = new item[Count];
+
+        //    pQueue.CopyTo(items);
+
+        //    heapSort(items);
+
+        //    Console.WriteLine("In this queue, the smallest value is the highest priority. \nI.E. 1 is of higher priority than 5, with 5 being the default priority value.\nQueue in priority Order: \n");
+        //    foreach (item item in items)
+        //    {
+        //        Console.WriteLine($"{item.data} (priority {item.priority})");
+        //    }
+        //    Console.WriteLine("End of Queue");
+
+        //}
+        //public void heapSort(item[] arr)
+        //{
+        //    int N = arr.Length;
+
+        //    // Build heap (rearrange array)
+        //    for (int i = N / 2 - 1; i >= 0; i--)
+        //        heapify(arr, N, i);
+
+        //    // One by one extract an element from heap
+        //    for (int i = N - 1; i > 0; i--)
+        //    {
+        //        // Move current root to end
+        //        item temp = arr[0];
+        //        arr[0] = arr[i];
+        //        arr[i] = temp;
+
+        //        // call max heapify on the reduced heap
+        //        heapify(arr, i, 0);
+        //    }
+        //}
+
+        //// To heapify a subtree rooted with node i which is
+        //// an index in arr[]. n is size of heap
+        //void heapify(item[] arr, int N, int i)
+        //{
+        //    int largest = i; // Initialize largest as root
+        //    int l = 2 * i + 1; // left = 2*i + 1
+        //    int r = 2 * i + 2; // right = 2*i + 2
+
+        //    // If left child is larger than root
+        //    if (l < N && arr[l].priority > arr[largest].priority)
+        //        largest = l;
+
+        //    // If right child is larger than largest so far
+        //    if (r < N && arr[r].priority > arr[largest].priority)
+        //        largest = r;
+
+        //    // If largest is not root
+        //    if (largest != i)
+        //    {
+        //        item swap = arr[i];
+        //        arr[i] = arr[largest];
+        //        arr[largest] = swap;
+
+        //        // Recursively heapify the affected sub-tree
+        //        heapify(arr, N, largest);
+        //    }
+
+        //}
     }
 }
 
